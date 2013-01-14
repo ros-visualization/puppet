@@ -1,0 +1,9 @@
+<stack>
+  <description brief="puppet">puppet</description>
+  <author>Originated by Austin Hendrix. Now maintained by Andreas Paepcke</author>
+  <license></license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/puppet</url>
+  <depend stack="ros" />
+
+</stack>

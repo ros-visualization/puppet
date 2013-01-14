@@ -1,0 +1,16 @@
+build/
+srv_gen/
+msg_gen/
+bin/
+*.so
+*.pyc
+slider_gui/.project
+program_queue/.project
+*.pt
+.cmake
+*.autosave
+*.pro
+cmake_install.cmake
+.cproject
+.project
+.pydevproject
