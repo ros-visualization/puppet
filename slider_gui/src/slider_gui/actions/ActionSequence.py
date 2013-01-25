@@ -1,5 +1,5 @@
 import pickle
-from Signal import Signal
+from slider_gui.Signal import Signal
 
 class ActionSequence(object):
 

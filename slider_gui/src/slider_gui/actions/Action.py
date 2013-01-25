@@ -1,4 +1,4 @@
-from Signal import Signal
+from slider_gui.Signal import Signal
 
 class Action(object):
 

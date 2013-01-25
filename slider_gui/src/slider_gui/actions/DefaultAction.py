@@ -1,11 +1,11 @@
-from actions.Pr2MoveHeadAction import Pr2MoveHeadAction
-from actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
-from actions.Pr2MoveLeftGripperAction import Pr2MoveLeftGripperAction
-from actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
-from actions.Pr2MoveRightGripperAction import Pr2MoveRightGripperAction
-from actions.Pr2MoveTorsoAction import Pr2MoveTorsoAction
-from actions.Pr2SpeakAction import Pr2SpeakAction
-from ActionSet import ActionSet
+from slider_gui.actions.Pr2MoveHeadAction import Pr2MoveHeadAction
+from slider_gui.actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
+from slider_gui.actions.Pr2MoveLeftGripperAction import Pr2MoveLeftGripperAction
+from slider_gui.actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
+from slider_gui.actions.Pr2MoveRightGripperAction import Pr2MoveRightGripperAction
+from slider_gui.actions.Pr2MoveTorsoAction import Pr2MoveTorsoAction
+from slider_gui.actions.Pr2SpeakAction import Pr2SpeakAction
+from slider_gui.actions.ActionSet import ActionSet
 
 class DefaultAction(ActionSet):
 

@@ -10,6 +10,7 @@ import sys
 import tempfile
 
 import roslib
+from slider_gui.SpeechEditDelegate import SpeechEditDelegate
 roslib.load_manifest('python_qt_binding')
 roslib.load_manifest('rviz')
 roslib.load_manifest('rviz_backdrop')
@@ -20,37 +21,37 @@ import rospy;
 from python_qt_binding.QtBindingHelper import loadUi
 from QtCore import QEvent, qFatal, QModelIndex, QObject, QRect, QRegExp, QSignalMapper, Qt, QTimer, Signal
 from QtGui import QApplication, QColor, QDialog, QFileDialog, QIcon, QItemSelectionModel, QKeyEvent, QMainWindow, QMessageBox, QPalette, QPixmap, QSplitter, QTableView, QVBoxLayout, QWidget
-from actions.DefaultAction import DefaultAction
-from CollisionChecker import CollisionChecker
-from DoubleSpinBoxDelegate import DoubleSpinBoxDelegate
-from KontrolSubscriber import KontrolSubscriber
-from PosesDataModel import PosesDataModel
-from actions.ActionSet import ActionSet
-from actions.Pr2LookAtFace import Pr2LookAtFace
-from actions.Pr2MoveHeadAction import Pr2MoveHeadAction
-from actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
-from actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
+from slider_gui.actions.DefaultAction import DefaultAction
+from slider_gui.CollisionChecker import CollisionChecker
+from slider_gui.DoubleSpinBoxDelegate import DoubleSpinBoxDelegate
+from slider_gui.KontrolSubscriber import KontrolSubscriber
+from slider_gui.PosesDataModel import PosesDataModel
+from slider_gui.actions.ActionSet import ActionSet
+from slider_gui.actions.Pr2LookAtFace import Pr2LookAtFace
+from slider_gui.actions.Pr2MoveHeadAction import Pr2MoveHeadAction
+from slider_gui.actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
+from slider_gui.actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
 
 # Weird Pythonpath problem causes this module to not 
 # be found in the actions subdir...:
-from actions.Pr2SpeakAction import Pr2SpeakAction
+from slider_gui.actions.Pr2SpeakAction import Pr2SpeakAction
 
 from pr2_controllers_msgs.msg import *
 import pr2_mechanism_msgs.srv._ListControllers
 import pr2_mechanism_msgs.srv._LoadController
 import pr2_mechanism_msgs.srv._SwitchController
-from ProgramQueue import ProgramQueue
-from Ps3Subscriber import Ps3Subscriber
+from slider_gui.ProgramQueue import ProgramQueue
+from slider_gui.Ps3Subscriber import Ps3Subscriber
 import rviz
 from sensor_msgs.msg import CompressedImage
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import JointState 
-from SimpleFormat import SimpleFormat
+from slider_gui.SimpleFormat import SimpleFormat
 import std_srvs.srv._Empty
 from trajectory_msgs.msg import *
 
-from toolbox_gui import ToolboxGUI
-from toolbox import Toolbox
+from slider_gui.toolbox_gui import ToolboxGUI
+from slider_gui.toolbox import Toolbox
 
 from subprocess import call
 
@@ -63,7 +64,7 @@ check_collisions = '--no-collision' not in sys.argv
 show_point_clouds = '--with-point-clouds' in sys.argv
 
 main_window = QMainWindow()
-ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src', 'slider_simple.ui')
+ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src/slider_gui', 'slider_simple.ui')
 loadUi(ui_file, main_window)
 
 # set icons for tabs
@@ -552,7 +553,7 @@ class Foo(QObject):
         self._update_current_value_signal.connect(self._update_current_value)
         
         self._scene_notification = QDialog(main_window)
-        ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src', 'wrong_scene_dialog.ui')
+        ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src/slider_gui', 'wrong_scene_dialog.ui')
         loadUi(ui_file, self._scene_notification)
         self._scene_notification_timer = QTimer(main_window)
         self._scene_notification_timer.setInterval(5000)
@@ -561,7 +562,7 @@ class Foo(QObject):
         self._scene_notification.finished.connect(self._hide_scene_notification)
 
         self._input_notification = QDialog(main_window)
-        ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src', 'wrong_input_method_dialog.ui')
+        ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src/slider_gui', 'wrong_input_method_dialog.ui')
         loadUi(ui_file, self._input_notification)
         self._input_notification_timer = QTimer(main_window)
         self._input_notification_timer.setInterval(5000)
@@ -687,6 +688,18 @@ def custom_focusNextPrevChild(self, next, old_focusNextPrevChild=QTableView.focu
             return True
     return rc
 
+def create_duration_delegate():
+    duration_delegate = DoubleSpinBoxDelegate()
+    duration_delegate.setMinimum(main_window.duration_doubleSpinBox.minimum())
+    duration_delegate.setMaximum(main_window.duration_doubleSpinBox.maximum())
+    duration_delegate.setSuffix(main_window.duration_doubleSpinBox.suffix())
+    duration_delegate.setSingleStep(main_window.duration_doubleSpinBox.singleStep())
+    return duration_delegate
+    
+def create_speech_edit_delegate():
+    delegate = SpeechEditDelegate()
+    return delegate
+
 # override key press event to handle delete key pressed
 def custom_keyPressEvent(self, event, old_keyPressEvent=QTableView.keyPressEvent):
     if event.key() == Qt.Key_Delete and event.modifiers() == Qt.NoModifier:
@@ -712,13 +725,15 @@ for i in range(main_window.PoseList_tabWidget.count()):
     model.duration_modified.connect(update_sequence_duration)
     table_view.setModel(model)
     table_view.resizeColumnsToContents()
-    duration_delegate = DoubleSpinBoxDelegate()
-    duration_delegate.setMinimum(main_window.duration_doubleSpinBox.minimum())
-    duration_delegate.setMaximum(main_window.duration_doubleSpinBox.maximum())
-    duration_delegate.setSuffix(main_window.duration_doubleSpinBox.suffix())
-    duration_delegate.setSingleStep(main_window.duration_doubleSpinBox.singleStep())
+    
+    duration_delegate = create_duration_delegate()
     table_view.setItemDelegateForColumn(0, duration_delegate)
     delegates.append(duration_delegate)
+    
+    speech_edit_delegate = create_speech_edit_delegate()
+    table_view.setItemDelegateForColumn(1, speech_edit_delegate)
+    delegates.append(speech_edit_delegate)
+    
     model.add_delegates(table_view)
     table_view.clicked.connect(test_clicked)
     table_view.verticalHeader().sectionClicked.connect(test_clicked)
@@ -985,7 +1000,7 @@ select_row_signal = RelaySignalInt()
 select_row_signal.relay_signal.connect(set_selected_row)
 
 collision_notification = QDialog(main_window)
-ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src', 'collision_dialog.ui')
+ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src/slider_gui', 'collision_dialog.ui')
 loadUi(ui_file, collision_notification)
 collision_notification_timer = QTimer(main_window)
 collision_notification_timer.setInterval(3000)
@@ -1216,7 +1231,7 @@ queue_default_password = 'admin'
 
 def queue_dialog():
     dialog = QDialog()
-    ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src', 'queue_dialog.ui')
+    ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src/slider_gui', 'queue_dialog.ui')
     loadUi(ui_file, dialog)
 
     if current_name is not None:

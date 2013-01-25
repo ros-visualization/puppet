@@ -2,14 +2,14 @@
 
 import roslib; roslib.load_manifest('slider_gui')
 
-from actions.ActionSequence import ActionSequence
-from actions.ActionSet import ActionSet
-from actions.Pr2MoveHeadAction import Pr2MoveHeadAction
-from actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
-from actions.Pr2MoveLeftGripperAction import Pr2MoveLeftGripperAction
-from actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
-from actions.Pr2MoveTorsoAction import Pr2MoveTorsoAction
-from actions.WaitAction import WaitAction
+from slider_gui.actions.ActionSequence import ActionSequence
+from slider_gui.actions.ActionSet import ActionSet
+from slider_gui.actions.Pr2MoveHeadAction import Pr2MoveHeadAction
+from slider_gui.actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
+from slider_gui.actions.Pr2MoveLeftGripperAction import Pr2MoveLeftGripperAction
+from slider_gui.actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
+from slider_gui.actions.Pr2MoveTorsoAction import Pr2MoveTorsoAction
+from slider_gui.actions.WaitAction import WaitAction
 import rospy
 
 rospy.init_node('test_actions')

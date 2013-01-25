@@ -7,8 +7,8 @@ import roslib;
 roslib.load_manifest('slider_gui')
 import rospy
 
-from actions.ActionSequence import ActionSequence
-from actions.DefaultAction import DefaultAction
+from slider_gui.actions.ActionSequence import ActionSequence
+from slider_gui.actions.DefaultAction import DefaultAction
 from Ps3Subscriber import Ps3Subscriber
 from SimpleFormat import SimpleFormat
 from program_queue.srv import *

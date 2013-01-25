@@ -14,10 +14,10 @@ import rospy;
 import threading;
 import copy;
 
-from actions.Action import Action;
+from slider_gui.actions.Action import Action;
 from speakeasy.text_to_speech import TextToSpeechProvider;
 from speakeasy.markupManagement import MarkupManagement;
-from toolbox import Toolbox;
+from slider_gui.toolbox import Toolbox;
 
 
 NON_BLOCKING = False;

@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1425</width>
+    <width>1439</width>
     <height>498</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Genie</string>
+   <string>Puppet</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="windowTitle">
@@ -551,7 +551,7 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../icons/play.png</normaloff>../icons/play.png</iconset>
+                       <normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/play.png</normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/play.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -568,7 +568,7 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../icons/stop.png</normaloff>../icons/stop.png</iconset>
+                       <normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/stop.png</normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/stop.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -591,7 +591,7 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../icons/recordIcon.png</normaloff>../icons/recordIcon.png</iconset>
+                       <normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/recordIcon.png</normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/recordIcon.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -972,7 +972,7 @@ background-color : white</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1425</width>
+     <width>1439</width>
      <height>25</height>
     </rect>
    </property>

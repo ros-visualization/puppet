@@ -1,5 +1,5 @@
 from ActionSet import ActionSet
-from actions.Pr2SpeakAction import Pr2SpeakAction
+from slider_gui.actions.Pr2SpeakAction import Pr2SpeakAction
 
 class DefaultSpeechAction(ActionSet):
 
