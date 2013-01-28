@@ -17,7 +17,7 @@ from PyQt4 import QtCore;
 
 from sensor_msgs.msg import Joy
 
-from pythonScriptDialog import DialogService;
+from slider_gui.pythonScriptDialog import DialogService;
 
 QT_CREATOR_UI_FILE_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../src/QtCreatorFiles");
 # The index of the mode button in Joy message button array:

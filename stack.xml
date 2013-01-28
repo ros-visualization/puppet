@@ -5,5 +5,8 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/puppet</url>
   <depend stack="ros" />
+  <depend stack="ros_comm" />
+  <depend stack="common_msgs" />
+  <depend stack="people" />
 
 </stack>
