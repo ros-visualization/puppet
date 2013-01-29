@@ -542,7 +542,7 @@ background-color : white</string>
                     <widget class="QPushButton" name="speechPlayButton">
                      <property name="font">
                       <font>
-                       <family>Webdings</family>
+                       <family>Ubuntu</family>
                        <pointsize>15</pointsize>
                       </font>
                      </property>
@@ -551,7 +551,9 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/play.png</normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/play.png</iconset>
+                       <normaloff>../../icons/play.png</normaloff>
+		      ../../icons/play.png
+		      </iconset>
                      </property>
                     </widget>
                    </item>
@@ -568,7 +570,9 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/stop.png</normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/stop.png</iconset>
+                       <normaloff>../../icons/stop.png</normaloff>
+		      ../../icons/stop.png
+		      </iconset>
                      </property>
                     </widget>
                    </item>
@@ -591,7 +595,9 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/recordIcon.png</normaloff>../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/slider_gui/icons/recordIcon.png</iconset>
+                       <normaloff>../../icons/recordIcon.png</normaloff>
+		      ../../icons/recordIcon.png
+		      </iconset>
                      </property>
                     </widget>
                    </item>

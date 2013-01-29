@@ -44,5 +44,9 @@ class SpeechEditDelegate(QStyledItemDelegate):
         @param index: index into model
         @type index: QModelIndex
         '''
-        return self._create_editor(self.parent).sizeHint();
+        #height = max(self._textLabel.height, self.
+        #***************8
+        return QSize(100,300)
+        #return self._create_editor(self.parent).sizeHint();
+        #***************8
     

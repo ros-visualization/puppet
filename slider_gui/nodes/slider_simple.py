@@ -724,7 +724,6 @@ for i in range(main_window.PoseList_tabWidget.count()):
     model.actions_changed.connect(autosave_program)
     model.duration_modified.connect(update_sequence_duration)
     table_view.setModel(model)
-    table_view.resizeColumnsToContents()
     
     duration_delegate = create_duration_delegate()
     table_view.setItemDelegateForColumn(0, duration_delegate)
@@ -735,6 +734,7 @@ for i in range(main_window.PoseList_tabWidget.count()):
     delegates.append(speech_edit_delegate)
     
     model.add_delegates(table_view)
+    table_view.resizeColumnsToContents()
     table_view.clicked.connect(test_clicked)
     table_view.verticalHeader().sectionClicked.connect(test_clicked)
     models.append(model)

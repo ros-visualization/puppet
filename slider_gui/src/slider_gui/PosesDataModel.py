@@ -117,9 +117,11 @@ class PosesDataModel(QAbstractTableModel):
 
     def columnCount(self, parent=None):
         if self._editable:
-            return 1 + len(self._joint_columns)
+            # Time, speech, and all the joints:
+            return 2 + len(self._joint_columns)
         else:
-            return 1 + 1
+            # Time, speech, and the single column for all the joints:
+            return 2 + 1
 
     def data(self, index, role=None):
         if role is None:
@@ -129,7 +131,6 @@ class PosesDataModel(QAbstractTableModel):
                 if index.column() == 0: # duration column
                     return '%.1f' % self._action_sequence.actions()[index.row()].get_duration()
                 elif index.column() == 1: # speech column:
-                    joint_info = self._joint_columns[index.column()]
                     actionSets = self._action_sequence.actions()
                     actionIndex = index.row()
                     actionSetAtIndex = actionSets[actionIndex]
@@ -138,7 +139,10 @@ class PosesDataModel(QAbstractTableModel):
                         utterance = actionSetAtIndex.get_value('text')
                     except KeyError:
                         return (None,None)
-                    res = (waitTillDone, utterance)
+                    if not self._editable:
+                        res = ('WaitForDone,' if waitTillDone else "NoWaiting,") + "'" + utterance + "'"
+                    else:
+                        res = (waitTillDone, utterance)
                     return res
                 elif not self._editable and index.column() == 1:
                     return self._action_sequence.actions()[index.row()].to_string()
@@ -157,7 +161,6 @@ class PosesDataModel(QAbstractTableModel):
                 if index.column() == 0:
                     return self._action_sequence.actions()[index.row()].get_duration()
                 elif index.column() == 1: # speech column:
-                    joint_info = self._joint_columns[index.column()]
                     actionSets = self._action_sequence.actions()
                     actionIndex = index.row()
                     actionSetAtIndex = actionSets[actionIndex]
@@ -190,8 +193,12 @@ class PosesDataModel(QAbstractTableModel):
                 return True
             elif index.column() == 1: # speech
                 try:
-                    self._action_sequence.actions()[index.row()].update_value(self._joint_columns[index.column()]['label'], value)
-                except:
+                    actionSets = self._action_sequence.actions()
+                    actionIndex = index.row()
+                    actionSetAtIndex = actionSets[actionIndex]
+                    actionSetAtIndex._actions[0].update_value('waitForSpeechDone', value[0]) # Wait/Don't Wait
+                    actionSetAtIndex._actions[0].update_value('text', value[1]) # Utterance
+                except Exception as e:
                     return False
                 return True
             elif self._editable:
@@ -230,7 +237,9 @@ class PosesDataModel(QAbstractTableModel):
             if orientation == Qt.Horizontal:
                 if section == 0:
                     return 'Time'
-                elif not self._editable and section == 1:
+                elif section == 1:
+                    return 'Speech'
+                elif not self._editable and section == 2:
                     return 'Joints'
                 elif self._editable and section in self._joint_columns.keys():
                     return self._joint_columns[section]['header']
@@ -280,11 +289,6 @@ class PosesDataModel(QAbstractTableModel):
         return super(PosesDataModel, self).dropMimeData(data, action, row, column, parent)
 
     def add_delegates(self, table_view):
-        # Add speech delegate to column 1:
-        delegate = SpeechEditDelegate()
-        table_view.setItemDelegateForColumn(1, delegate)
-        self._delegates.append(delegate)
-
         for i in self._joint_columns.keys():
             joint_info = self._joint_columns[i]
             

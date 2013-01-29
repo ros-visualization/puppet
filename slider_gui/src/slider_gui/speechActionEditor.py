@@ -57,6 +57,9 @@ class SpeechActionEditor(QWidget):
         @param index: index into model
         @type index: QModelIndex
         '''
+#        width = self.waitYesNoCheckbox.width + self.speechTextField.width
+#        height = self.waitYesNoCheckbox.height + self.speechTextField.height
+#        return QSize(width, height)
         return QSize(self.width(), self.height())
         
         

@@ -168,7 +168,13 @@ class Pr2SpeakAction(Action):
     #--------------
     
     def update_value(self, label, value):
-        self.waitForSpeechDone, self.utterance = value; 
+        if label == "waitForSpeechDone":
+            self.waitForSpeechDone = value
+        elif label == "text":
+            self.utterance = value
+        else:
+            return
+        #self.waitForSpeechDone, self.utterance = value; 
 
 
     # --------------------- Abstract and Override Methods from Action Superclass -----------
