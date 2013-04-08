@@ -1,0 +1,30 @@
+<package>
+  <description brief="puppet_gui">
+
+     puppet_gui
+
+  </description>
+  <author>Dirk Thomas</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/puppet_gui</url>
+  <depend package="actionlib"/>
+  <depend package="rospy"/>
+  <depend package="pr2_controllers_msgs"/>
+  <depend package="trajectory_msgs"/>
+<!--  <depend package="face_detector"/> -->
+  <depend package="rviz_backdrop"/>
+  <depend package="sensor_msgs"/>
+
+  <depend package="planning_environment"/>
+  <depend package="pr2_arm_navigation_config"/>
+
+  <depend package="std_srvs"/>
+  <depend package="pr2_mechanism_msgs"/>
+
+  <rosdep name="korg_nanokontrol"/>
+  <rosdep name="people"/>
+
+</package>
+
+

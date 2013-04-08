@@ -1,0 +1,22 @@
+<launch>
+  <arg name="gui" default="false"/>
+  <arg name="throttled" default="false"/>
+
+  <include file="$(find pr2_gazebo)/launch/pr2_empty_world.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="throttled" value="$(arg throttled)"/>
+  </include>
+  <include file="$(find puppet_gui)/launch/state_check_service.launch"/>
+  <node pkg="korg_nanokontrol" type="kontrol.py" name="kontrol" args="3">
+    <remap from="joy" to="korg_joy"/>
+  </node>
+  <!--<node pkg="ps3joy" type="ps3joy.py" launch-prefix="sudo" name="ps3joy"/>-->
+  <node pkg="joy" type="joy_node" name="joy_node">
+    <remap from="joy" to="ps3_joy"/>
+  </node>
+  <node pkg="puppet_gui" type="puppet_gui.py" name="slider_simple" args="--no-collision"/>
+  <node pkg="puppet_gui" type="accessibleSlider.py" name="aSliders">
+    <remap from="joy" to="korg_joy"/>
+  </node>
+
+</launch>

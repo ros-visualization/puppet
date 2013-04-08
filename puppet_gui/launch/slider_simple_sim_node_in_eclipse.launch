@@ -1,0 +1,34 @@
+<launch>
+
+  <arg name="gui" default="false"/>
+  <arg name="throttled" default="false"/>
+
+  <include file="$(find pr2_gazebo)/launch/pr2_empty_world.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="throttled" value="$(arg throttled)"/>
+  </include>
+
+  <include file="$(find puppet_gui)/launch/state_check_service.launch"/>
+
+  <!-- Korg slider board listener: -->
+  <node pkg="korg_nanokontrol" type="kontrol.py" name="kontrol" args="3">
+    <remap from="joy" to="korg_joy"/>
+  </node>
+
+  <node pkg="puppet_gui" type="accessibleSlider.py" name="aSliders">
+    <remap from="joy" to="korg_joy"/>
+  </node>
+
+  <!-- PS3 game console listener: -->
+  <node pkg="joy" type="joy_node" name="joy_node">
+    <remap from="joy" to="ps3_joy"/>
+  </node>
+
+  <!-- Enable mannequin mode: -->
+  <rosparam command="load" file="$(find pr2_mannequin_mode)/pr2_arm_controllers_loose.yaml"/>
+  <rosparam command="load" file="$(find pr2_mannequin_mode)/head_position_controller_loose.yaml"/>
+
+  <!-- main application: -->
+  <!-- will be started manually in Eclipse or from the command line via rosrun -->
+
+</launch>
