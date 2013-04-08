@@ -1,3 +1,0 @@
-# clear the queue. Must be called with a token associated with an admin
-uint64 token
----

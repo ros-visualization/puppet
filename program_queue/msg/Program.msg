@@ -1,2 +1,0 @@
-ProgramInfo info
-string code

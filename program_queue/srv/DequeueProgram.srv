@@ -1,4 +1,0 @@
-# Removed a program from the queue; can only be called with an admin token
-uint64 token
-uint64 id
----

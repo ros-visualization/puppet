@@ -8,5 +8,8 @@
   <depend stack="ros_comm" />
   <depend stack="common_msgs" />
   <depend stack="people" />
-
+  <depend stack="actionlib"/>
+  <depend stack="pr2_controllers"/>
+  <depend stack="arm_navigation"/>
+  <depend stack="pr2_mechanism"/>
 </stack>

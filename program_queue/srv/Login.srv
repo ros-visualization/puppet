@@ -1,6 +1,0 @@
-# get a login token for a user
-string name
-string password
----
-uint64 token
-bool is_admin
