@@ -14,3 +14,5 @@ cmake_install.cmake
 .cproject
 .project
 .pydevproject
+CMakeCache.txt
+CMakeFiles/
