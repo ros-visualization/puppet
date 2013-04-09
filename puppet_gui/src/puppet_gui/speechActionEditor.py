@@ -1,5 +1,3 @@
-#import python_qt_binding.QtBindingHelper #@UnusedImport
-#from python_qt_binding.QtBindingHelper import loadUi
 from python_qt_binding import QtCore, QtGui
 from QtCore import Qt, QSize, QRect
 from QtGui import QApplication, QWidget, QItemDelegate, QPlainTextEdit, QDialog, QFrame, QHBoxLayout, QVBoxLayout, QLabel, QMainWindow, QCheckBox

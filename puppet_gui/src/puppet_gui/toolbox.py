@@ -20,7 +20,6 @@ import roslib
 roslib.load_manifest('speakeasy')
 import rospy
 
-from python_qt_binding import QtBindingHelper;
 from QtCore import Signal
 
 #from utilities.speakeasy_utils import SpeakeasyUtils; 

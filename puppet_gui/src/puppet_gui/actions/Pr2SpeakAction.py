@@ -358,7 +358,7 @@ if __name__ == '__main__':
     
     import unittest
     from sound_dialog import SoundControl
-    from python_qt_binding import QtBindingHelper
+    from python_qt_binding import QtGui
     from QtGui import QApplication
     import sys
     

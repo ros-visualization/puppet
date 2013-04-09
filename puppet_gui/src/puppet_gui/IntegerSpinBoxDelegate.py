@@ -1,4 +1,4 @@
-import python_qt_binding.QtBindingHelper #@UnusedImport
+from python_qt_binding import QtCore, QtGui
 from QtCore import Qt
 from QtGui import QSpinBox, QItemDelegate
 

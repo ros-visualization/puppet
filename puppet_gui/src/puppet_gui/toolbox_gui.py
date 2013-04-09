@@ -20,8 +20,8 @@ import roslib
 roslib.load_manifest('speakeasy')
 import rospy
 
-from python_qt_binding import QtBindingHelper;
-from python_qt_binding.QtBindingHelper import loadUi
+from python_qt_binding import loadUi
+from python_qt_binding import QtGui, QtCore
 from QtGui import QApplication, QDialog, QMainWindow
 from QtCore import Signal,QObject 
 

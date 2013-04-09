@@ -8,8 +8,8 @@ import os;
 import sys;
 import string;
 
-from python_qt_binding import QtBindingHelper;
-from python_qt_binding.QtBindingHelper import loadUi;
+from python_qt_binding import QtCore, QtGui;
+from python_qt_binding import loadUi;
 from QtCore import Signal, Slot;
 from QtGui import QApplication, QMainWindow, QFileDialog, QMessageBox, QErrorMessage, QFileDialog;
 
@@ -178,7 +178,7 @@ class PythonScriptDialog(QMainWindow):
         Loads the QtCreator XML file that defines the popup window for displaying 
         Python script translations.
         '''
-        self.scriptDialog = QtBindingHelper.loadUi(os.path.join(QT_CREATOR_UI_FILE_ROOT, 
+        self.scriptDialog = loadUi(os.path.join(QT_CREATOR_UI_FILE_ROOT, 
                                                                 "pythonDialog/python_program_dialog.ui"),
                                                    self);
         self.setWindowTitle("Poses as Python");

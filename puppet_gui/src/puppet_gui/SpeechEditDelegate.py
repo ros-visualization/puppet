@@ -1,4 +1,3 @@
-#import python_qt_binding.QtBindingHelper #@UnusedImport
 from python_qt_binding import QtCore
 from QtCore import Qt, QSize
 from QtGui import QCheckBox, QStyledItemDelegate

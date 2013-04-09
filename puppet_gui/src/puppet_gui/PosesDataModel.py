@@ -6,7 +6,7 @@ from actions.DefaultSpeechAction import DefaultSpeechAction
 from DoubleSpinBoxDelegate import DoubleSpinBoxDelegate
 from IntegerSpinBoxDelegate import IntegerSpinBoxDelegate
 
-import python_qt_binding.QtBindingHelper #@UnusedImport
+from python_qt_binding import QtCore
 from QtCore import QAbstractTableModel, QByteArray, QMimeData, QModelIndex, Qt, Signal
 from SpeechEditDelegate import SpeechEditDelegate
 

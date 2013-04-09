@@ -410,6 +410,20 @@ class AccessibleSlider(QMainWindow):
             except KeyError:
                 return sliderDialObjs;
                 
+# Ensure that cnt-C works:                
+sigint_called = False
+def sigint_handler(*args):
+    global sigint_called
+    print('\nsigint_handler()')
+    sigint_called = True
+    main_window.close()
+signal.signal(signal.SIGINT, sigint_handler)
+# the timer enables triggering the sigint_handler,
+# because it coaxes processing out of the underlying
+# C++ world:
+timer = QTimer()
+timer.start(500)
+timer.timeout.connect(lambda: None)
                     
     
 if __name__ == '__main__':

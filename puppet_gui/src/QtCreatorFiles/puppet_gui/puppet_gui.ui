@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1439</width>
-    <height>498</height>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -446,6 +446,9 @@
                      <height>30</height>
                     </size>
                    </property>
+                   <property name="toolTip">
+                    <string>What to say</string>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">color : black;
 background-color : white</string>
@@ -504,6 +507,9 @@ background-color : white</string>
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="toolTip">
+                    <string>Voice for the speech</string>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">ComboBox QAbstractItemView {
      border: 2px solid darkgray;
@@ -516,20 +522,79 @@ background-color : white</string>
                 </layout>
                </item>
                <item>
-                <spacer name="horizontalSpacer_9">
+                <spacer name="horizontalSpacer_16">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>74</width>
                    <height>20</height>
                   </size>
                  </property>
                 </spacer>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="blockProgressVBox">
+                 <property name="sizeConstraint">
+                  <enum>QLayout::SetDefaultConstraint</enum>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <item>
+                    <widget class="QLabel" name="freezePose">
+                     <property name="font">
+                      <font>
+                       <italic>true</italic>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Freeze Pose</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <property name="spacing">
+                    <number>7</number>
+                   </property>
+                   <item>
+                    <spacer name="horizontalSpacer_9">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Expanding</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>27</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="blockingSpeechCheckbox">
+                     <property name="toolTip">
+                      <string>Freeze pose during speech, or keep running through the program</string>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
                </item>
                <item>
                 <layout class="QVBoxLayout" name="insertSayAndPlayControlsVBox_2">
@@ -545,6 +610,9 @@ background-color : white</string>
                        <family>Ubuntu</family>
                        <pointsize>15</pointsize>
                       </font>
+                     </property>
+                     <property name="toolTip">
+                      <string>Test-play speech</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -562,6 +630,9 @@ background-color : white</string>
                        <family>Webdings</family>
                        <pointsize>9</pointsize>
                       </font>
+                     </property>
+                     <property name="toolTip">
+                      <string>Stop test-play</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -582,6 +653,9 @@ background-color : white</string>
                       <font>
                        <family>Webdings</family>
                       </font>
+                     </property>
+                     <property name="toolTip">
+                      <string>Insert speech into program</string>
                      </property>
                      <property name="styleSheet">
                       <string notr="true">color: rgb(216, 54, 54)</string>
@@ -701,6 +775,9 @@ background-color : white</string>
           </item>
           <item>
            <widget class="QPushButton" name="showSoundButton">
+            <property name="toolTip">
+             <string>Show or hide the sound control above</string>
+            </property>
             <property name="text">
              <string>Show Sound</string>
             </property>
@@ -717,6 +794,9 @@ background-color : white</string>
           </item>
           <item>
            <widget class="QPushButton" name="accessibilityButton">
+            <property name="toolTip">
+             <string>Show on-screen joint control slider board</string>
+            </property>
             <property name="text">
              <string>Accessibility</string>
             </property>

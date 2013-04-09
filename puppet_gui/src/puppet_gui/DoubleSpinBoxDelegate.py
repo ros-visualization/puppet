@@ -1,6 +1,6 @@
 from IntegerSpinBoxDelegate import IntegerSpinBoxDelegate
 
-import python_qt_binding.QtBindingHelper #@UnusedImport
+from python_qt_binding import QtCore, QtGui
 from QtCore import Qt
 from QtGui import QDoubleSpinBox
 

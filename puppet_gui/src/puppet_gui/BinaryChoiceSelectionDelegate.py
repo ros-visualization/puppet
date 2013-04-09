@@ -1,10 +1,10 @@
-import python_qt_binding.QtBindingHelper #@UnusedImport
+from python_qt_binding import QtCore, QtGui
 from IntegerSpinBoxDelegate import IntegerSpinBoxDelegate
 from QtCore import Qt
 from QtGui import QCheckBox, QItemDelegate
 
 
-import python_qt_binding.QtBindingHelper #@UnusedImport
+from python_qt_binding import QtCore, QtGui
 from QtCore import Qt
 from QtGui import QDoubleSpinBox
 

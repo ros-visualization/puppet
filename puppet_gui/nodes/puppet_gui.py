@@ -846,11 +846,13 @@ main_window.accessibilityButton.clicked.connect(bringAccessibleSlidersToTop);
 def insert_speak(whatToSay, voiceToUse, ttsEngine):
     model = get_current_model()
     action_set = ActionSet()
+    shouldBlock = main_window.blockingSpeechCheckbox.isChecked()
     try:
         action = Pr2SpeakAction(Toolbox.getInstance(), 
                                 whatToSay, 
                                 voice=voiceToUse,
-                                ttsEngine=ttsEngine) 
+                                ttsEngine=ttsEngine,
+                                waitForSpeechDone=shouldBlock) 
     except ValueError as e:
         self.dialogService.showErrorMsg(str(e));
         return;
