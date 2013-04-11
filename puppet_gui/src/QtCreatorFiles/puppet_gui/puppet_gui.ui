@@ -517,6 +517,9 @@ background-color : white</string>
      QListView :item {color : white;} 
  }</string>
                    </property>
+                   <property name="currentIndex">
+                    <number>-1</number>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -619,7 +622,7 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/puppet_gui/icons/play.png</normaloff>../../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/puppet_gui/icons/play.png</iconset>
+                       <normaloff>../../puppet_gui/resources/play.png</normaloff>../../puppet_gui/resources/play.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -639,7 +642,7 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/puppet_gui/icons/stop.png</normaloff>../../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/puppet_gui/icons/stop.png</iconset>
+                       <normaloff>../../puppet_gui/resources/stop.png</normaloff>../../puppet_gui/resources/stop.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -665,7 +668,7 @@ background-color : white</string>
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/puppet_gui/icons/recordIcon.png</normaloff>../../../../../../../../../wg/stor2a/paepcke/fuerte/stacks/puppet/puppet_gui/icons/recordIcon.png</iconset>
+                       <normaloff>../../puppet_gui/resources/recordIcon.png</normaloff>../../puppet_gui/resources/recordIcon.png</iconset>
                      </property>
                     </widget>
                    </item>

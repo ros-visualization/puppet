@@ -1,59 +1,65 @@
 #!/usr/bin/env python
 
+import rospy, roslib
+roslib.load_manifest('puppet_gui')
+
+from python_qt_binding import QtCore, QtGui
+from QtCore import QEvent, qFatal, QModelIndex, QObject, QRect, QRegExp, \
+    QSignalMapper, Qt, QTimer, Signal
+from QtGui import QApplication, QColor, QDialog, QFileDialog, QIcon, \
+    QItemSelectionModel, QKeyEvent, QMainWindow, QMessageBox, QPalette, QPixmap, \
+    QSplitter, QTableView, QVBoxLayout, QWidget
+from StringIO import StringIO
+from pr2_controllers_msgs.msg import *
+from puppet_gui.CollisionChecker import CollisionChecker
+from puppet_gui.DoubleSpinBoxDelegate import DoubleSpinBoxDelegate
+from puppet_gui.KontrolSubscriber import KontrolSubscriber
+from puppet_gui.PosesDataModel import PosesDataModel
+from puppet_gui.Ps3Subscriber import Ps3Subscriber
+from puppet_gui.SimpleFormat import SimpleFormat
+from puppet_gui.SpeakEasySubscriber import SpeakEasySubscriber
+from puppet_gui.SpeechEditDelegate import SpeechEditDelegate
+from puppet_gui.actions.ActionSet import ActionSet
+from puppet_gui.actions.DefaultAction import DefaultAction
+from puppet_gui.actions.Pr2LookAtFace import Pr2LookAtFace
+from puppet_gui.actions.Pr2MoveHeadAction import Pr2MoveHeadAction
+from puppet_gui.actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
+from puppet_gui.actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
+from puppet_gui.actions.Pr2SpeakAction import Pr2SpeakAction
+from puppet_gui.toolbox import Toolbox
+from puppet_gui.toolbox_gui import ToolboxGUI
+from python_qt_binding import QtCore, QtGui, loadUi
+from sensor_msgs.msg import CompressedImage, Image, JointState
+from subprocess import call
+from trajectory_msgs.msg import *
 import math
 import new
 import os
+import pr2_mechanism_msgs.srv._ListControllers
+import pr2_mechanism_msgs.srv._LoadController
+import pr2_mechanism_msgs.srv._SwitchController
+import puppet_gui.resourcesRepo
 import random
+import roslib
+import rviz
 import signal
-from StringIO import StringIO
+import std_srvs.srv._Empty
 import sys
 import tempfile
 
-import roslib
 roslib.load_manifest('python_qt_binding')
 roslib.load_manifest('rviz')
 roslib.load_manifest('rviz_backdrop')
 roslib.load_manifest('puppet_gui')
 import rospy;
 
-from puppet_gui.SpeechEditDelegate import SpeechEditDelegate
-from python_qt_binding import loadUi
-from python_qt_binding import QtCore, QtGui
-from QtCore import QEvent, qFatal, QModelIndex, QObject, QRect, QRegExp, QSignalMapper, Qt, QTimer, Signal
-from QtGui import QApplication, QColor, QDialog, QFileDialog, QIcon, QItemSelectionModel, QKeyEvent, QMainWindow, QMessageBox, QPalette, QPixmap, QSplitter, QTableView, QVBoxLayout, QWidget
-from puppet_gui.actions.DefaultAction import DefaultAction
-from puppet_gui.CollisionChecker import CollisionChecker
-from puppet_gui.DoubleSpinBoxDelegate import DoubleSpinBoxDelegate
-from puppet_gui.KontrolSubscriber import KontrolSubscriber
-from puppet_gui.PosesDataModel import PosesDataModel
-from puppet_gui.actions.ActionSet import ActionSet
-from puppet_gui.actions.Pr2LookAtFace import Pr2LookAtFace
-from puppet_gui.actions.Pr2MoveHeadAction import Pr2MoveHeadAction
-from puppet_gui.actions.Pr2MoveLeftArmAction import Pr2MoveLeftArmAction
-from puppet_gui.actions.Pr2MoveRightArmAction import Pr2MoveRightArmAction
 
 # Weird Pythonpath problem causes this module to not 
 # be found in the actions subdir...:
-from puppet_gui.actions.Pr2SpeakAction import Pr2SpeakAction
 
-from pr2_controllers_msgs.msg import *
-import pr2_mechanism_msgs.srv._ListControllers
-import pr2_mechanism_msgs.srv._LoadController
-import pr2_mechanism_msgs.srv._SwitchController
 #from puppet_gui.ProgramQueue import ProgramQueue
-from puppet_gui.Ps3Subscriber import Ps3Subscriber
-import rviz
-from sensor_msgs.msg import CompressedImage
-from sensor_msgs.msg import Image
-from sensor_msgs.msg import JointState 
-from puppet_gui.SimpleFormat import SimpleFormat
-import std_srvs.srv._Empty
-from trajectory_msgs.msg import *
 
-from puppet_gui.toolbox_gui import ToolboxGUI
-from puppet_gui.toolbox import Toolbox
 
-from subprocess import call
 
 # Reasons for stopping sequences: user pressed stop button, vs. other reasons:
 STOP_BUTTON = 1
@@ -67,6 +73,11 @@ main_window = QMainWindow()
 ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src/QtCreatorFiles/puppet_gui', 'puppet_gui.ui')
 loadUi(ui_file, main_window)
 
+resourcesDirFromNodeDir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../src/puppet_gui/resources'))
+main_window.speechPlayButton.setIcon(QIcon(os.path.join(resourcesDirFromNodeDir, 'play.png')));
+main_window.speechStopButton.setIcon(QIcon(os.path.join(resourcesDirFromNodeDir, 'stop.png')));
+main_window.speechInsertButton.setIcon(QIcon(os.path.join(resourcesDirFromNodeDir, 'recordIcon.png')));
+
 # set icons for tabs
 icons = {
     0: 'square.png',
@@ -75,7 +86,7 @@ icons = {
     3: 'cross.png',
 }
 for index, filename in icons.iteritems():
-    filename = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'icons', filename))
+    filename = os.path.join(resourcesDirFromNodeDir, 'tabIcons', filename)
     icon = QIcon(filename)
     if not icon.isNull():
         main_window.PoseList_tabWidget.setTabText(index, '')
@@ -527,9 +538,10 @@ if main_window.input_method_comboBox.count() <= 1:
     main_window.input_method_horizontalLayout.parent().removeItem(main_window.input_method_horizontalLayout)
 
 
-kontrol_subscriber = KontrolSubscriber()
-
+kontrol_subscriber   = KontrolSubscriber()
 toolbox_gui = ToolboxGUI.getInstance(main_window, Toolbox())
+speakeasy_subscriber = SpeakEasySubscriber(toolbox_gui.commChannel.insertRobotSaysSignal)
+
 #****main_window.toolsPaneFrame.hide()
 
 if check_collisions:

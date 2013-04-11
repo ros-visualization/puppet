@@ -1,0 +1,17 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+    <file>circle.png</file>
+    <file>cross.png</file>
+    <file>littleBitBack.png</file>
+    <file>littleBitForward.png</file>
+    <file>pause.png</file>
+    <file>play.png</file>
+    <file>recordIcon.png</file>
+    <file>replayIcon.png</file>
+    <file>rewind.png</file>
+    <file>square.png</file>
+    <file>stop.png</file>
+    <file>triangle.png</file>
+ </qresource>
+</RCC>
