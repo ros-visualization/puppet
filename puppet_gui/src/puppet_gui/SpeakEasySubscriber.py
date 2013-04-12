@@ -4,7 +4,7 @@ import roslib
 roslib.load_manifest('puppet_gui')
 
 import rospy
-from speakeasy.msg import speakeasy_button_program
+from speakeasy.msg import SpeakEasyButtonProgram
 from Signal import Signal
 from toolbox_gui import CommChannel
 
@@ -18,7 +18,8 @@ class SpeakEasySubscriber(object):
         # For stand-alone testing:
         #rospy.init_node('speakEasyPuppetLink', anonymous=True)
         
-        rospy.Subscriber("SpeakEasyButtonProgram", speakeasy_button_program, self.speakEasyProgramArrived)
+        #rospy.Subscriber("speakeasy_button_program", SpeakEasyButtonProgram, self.speakEasyProgramArrived)
+        rospy.Subscriber("SpeakEasyButtonProgram", SpeakEasyButtonProgram, self.speakEasyProgramArrived)
         
         # For stand-alone testing:
         #rospy.spin()

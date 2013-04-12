@@ -8,12 +8,14 @@ import sys;
 import os;
 import copy;
 import threading;
+import signal;
 
 import rospy;
 
 from python_qt_binding import QtGui, loadUi;
 from QtGui import QMainWindow, QApplication, QSlider, QDial, QPushButton;
 from python_qt_binding import QtCore;
+from QtCore import QTimer;
 
 from sensor_msgs.msg import Joy
 
@@ -416,7 +418,7 @@ def sigint_handler(*args):
     global sigint_called
     print('\nsigint_handler()')
     sigint_called = True
-    main_window.close()
+    slider.close()
 signal.signal(signal.SIGINT, sigint_handler)
 # the timer enables triggering the sigint_handler,
 # because it coaxes processing out of the underlying
