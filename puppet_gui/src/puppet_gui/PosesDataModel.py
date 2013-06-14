@@ -27,21 +27,21 @@ class PosesDataModel(QAbstractTableModel):
         self._add_joint(2, action, 'head_pan_joint', 'Hd Turn')
         self._add_joint(3, action, 'head_tilt_joint', 'Hd Nod')
         self._add_joint(4, action, 'torso_lift_joint', 'Torso', 2)
-        self._add_joint(5, action, 'l_shoulder_pan_joint', 'Lp1')
-        self._add_joint(6, action, 'l_shoulder_lift_joint', 'Ll2')
-        self._add_joint(7, action, 'l_upper_arm_roll_joint', 'Lu3')
-        self._add_joint(8, action, 'l_elbow_flex_joint', 'Le4')
-        self._add_joint(9, action, 'l_forearm_roll_joint', 'Lf5')
-        self._add_joint(10, action, 'l_wrist_flex_joint', 'Lw6')
-        self._add_joint(11, action, 'l_wrist_roll_joint', 'Lr7')
+        self._add_joint(5, action, 'l_shoulder_pan_joint', 'LSpan')
+        self._add_joint(6, action, 'l_shoulder_lift_joint', 'LSlift')
+        self._add_joint(7, action, 'l_upper_arm_roll_joint', 'LUArmRoll')
+        self._add_joint(8, action, 'l_elbow_flex_joint', 'LElbFlex')
+        self._add_joint(9, action, 'l_forearm_roll_joint', 'LFArmRoll')
+        self._add_joint(10, action, 'l_wrist_flex_joint', 'LWrstFlex')
+        self._add_joint(11, action, 'l_wrist_roll_joint', 'LWrstRoll')
         self._add_joint(12, action, 'l_gripper', 'LGrip', 3)
-        self._add_joint(13, action, 'r_shoulder_pan_joint', 'Rp1')
-        self._add_joint(14, action, 'r_shoulder_lift_joint', 'Rl2')
-        self._add_joint(15, action, 'r_upper_arm_roll_joint', 'Ru3')
-        self._add_joint(16, action, 'r_elbow_flex_joint', 'Re4')
-        self._add_joint(17, action, 'r_forearm_roll_joint', 'Rf5')
-        self._add_joint(18, action, 'r_wrist_flex_joint', 'Rw6')
-        self._add_joint(19, action, 'r_wrist_roll_joint', 'Rr7')
+        self._add_joint(13, action, 'r_shoulder_pan_joint', 'RSpan')
+        self._add_joint(14, action, 'r_shoulder_lift_joint', 'RSlift')
+        self._add_joint(15, action, 'r_upper_arm_roll_joint', 'RUArmRoll')
+        self._add_joint(16, action, 'r_elbow_flex_joint', 'RElbFlex')
+        self._add_joint(17, action, 'r_forearm_roll_joint', 'RFArmRoll')
+        self._add_joint(18, action, 'r_wrist_flex_joint', 'RWrstFlex')
+        self._add_joint(19, action, 'r_wrist_roll_joint', 'RWrstRoll')
         self._add_joint(20, action, 'r_gripper', 'RGrip', 3)
 
         # keep reference to delegates to prevent being garbaged
@@ -155,14 +155,20 @@ class PosesDataModel(QAbstractTableModel):
                     # Joints run from 2 to number of joints. The offset
                     # is to make room for time and speech columns: 
                     for jointIndex in range(2, 2 + len(self._joint_columns)):
-                        joint_info = self._joint_columns[jointIndex]
-                        jointLabel = joint_info['label']
-                        value = self._action_sequence.actions()[index.row()].get_value(jointLabel)
+                        joint_info        = self._joint_columns[jointIndex]
+                        jointLabel        = joint_info['label']
+                        jointAbbreviation = joint_info['header']
+                        try:
+                            value = self._action_sequence.actions()[index.row()].get_value(jointLabel)
+                        except KeyError:
+                            # For rows that have speech instead of a pose,
+                            # the above value seek fails:
+                            continue
                         if joint_info['decimals'] is not None:
                             value = round(value, joint_info['decimals'])
                         else:
                             value = int(round(value))
-                        valString += "%s:%d;" % (jointLabel,value)
+                        valString += "%s:%d;" % (jointAbbreviation,value)
                     return valString
                     
                 elif self._editable and index.column() in self._joint_columns.keys():
