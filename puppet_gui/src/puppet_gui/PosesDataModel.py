@@ -34,7 +34,7 @@ class PosesDataModel(QAbstractTableModel):
         self._add_joint(9, action, 'l_forearm_roll_joint', 'Lf5')
         self._add_joint(10, action, 'l_wrist_flex_joint', 'Lw6')
         self._add_joint(11, action, 'l_wrist_roll_joint', 'Lr7')
-        self._add_joint(13, action, 'l_gripper', 'LGrip', 3)
+        self._add_joint(12, action, 'l_gripper', 'LGrip', 3)
         self._add_joint(13, action, 'r_shoulder_pan_joint', 'Rp1')
         self._add_joint(14, action, 'r_shoulder_lift_joint', 'Rl2')
         self._add_joint(15, action, 'r_upper_arm_roll_joint', 'Ru3')
@@ -130,6 +130,7 @@ class PosesDataModel(QAbstractTableModel):
             if role == Qt.DisplayRole:
                 if index.column() == 0: # duration column
                     return '%.1f' % self._action_sequence.actions()[index.row()].get_duration()
+                
                 elif index.column() == 1: # speech column:
                     actionSets = self._action_sequence.actions()
                     actionIndex = index.row()
@@ -144,8 +145,26 @@ class PosesDataModel(QAbstractTableModel):
                     else:
                         res = (waitTillDone, utterance)
                     return res
+                
                 elif not self._editable and index.column() == 1:
                     return self._action_sequence.actions()[index.row()].to_string()
+                
+                elif not self._editable and index.column() in self._joint_columns.keys():
+                    # For displaying, put all joint values into column 2:
+                    valString = ""
+                    # Joints run from 2 to number of joints. The offset
+                    # is to make room for time and speech columns: 
+                    for jointIndex in range(2, 2 + len(self._joint_columns)):
+                        joint_info = self._joint_columns[jointIndex]
+                        jointLabel = joint_info['label']
+                        value = self._action_sequence.actions()[index.row()].get_value(jointLabel)
+                        if joint_info['decimals'] is not None:
+                            value = round(value, joint_info['decimals'])
+                        else:
+                            value = int(round(value))
+                        valString += "%s:%d;" % (jointLabel,value)
+                    return valString
+                    
                 elif self._editable and index.column() in self._joint_columns.keys():
                     joint_info = self._joint_columns[index.column()]
                     try:
