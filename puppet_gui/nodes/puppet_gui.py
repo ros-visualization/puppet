@@ -751,7 +751,13 @@ def custom_keyPressEvent(self, event, old_keyPressEvent=QTableView.keyPressEvent
         if delete_selected():
             print 'custom_keyPressEvent()', 'delete row'
             event.accept()
-            return True
+            return
+    elif event.key() == Qt.Key_Down and event.modifiers() == Qt.NoModifier:
+        select_next_row()
+        return
+    elif event.key() == Qt.Key_Up and event.modifiers() == Qt.NoModifier:
+        select_previous_row()
+        return
     return old_keyPressEvent(self, event)
 
 for i in range(main_window.PoseList_tabWidget.count()):
@@ -824,6 +830,32 @@ def append_current():
     table_view.selectRow(rows - 1)
 
 main_window.append_pushButton.clicked.connect(append_current)
+
+def select_next_row():
+    table_view = get_table_view(get_current_tab_index())
+    current_row = get_selected_row()
+    if current_row is None:
+        current_row = 0
+    if current_row >= get_row_count():
+        return
+    table_view.selectRow(current_row + 1)
+    model = get_current_model() 
+    model.action_sequence().actions()[current_row + 1].execute()
+
+
+def select_previous_row():
+    table_view = get_table_view(get_current_tab_index())
+    current_row = get_selected_row()
+    if current_row is None:
+        return
+    if current_row == 0 or get_row_count() == 0:
+        return
+    table_view.selectRow(current_row - 1)
+    model = get_current_model()     
+    model.action_sequence().actions()[current_row - 1].execute()
+
+main_window.nextLineButton.clicked.connect(select_next_row)
+main_window.prevLineButton.clicked.connect(select_previous_row)
 
 
 def insert_current_before_selected():

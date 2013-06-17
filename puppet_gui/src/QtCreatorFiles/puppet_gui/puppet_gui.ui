@@ -95,6 +95,40 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
+           <widget class="QPushButton" name="nextLineButton">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../../puppet_gui/resources/downArrow.png</normaloff>../../puppet_gui/resources/downArrow.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="prevLineButton">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../../puppet_gui/resources/upArrow.png</normaloff>../../puppet_gui/resources/upArrow.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QRadioButton" name="read_only_model_radioButton">
             <property name="locale">
              <locale language="English" country="UnitedStates"/>
