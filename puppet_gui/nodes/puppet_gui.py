@@ -836,7 +836,7 @@ def select_next_row():
     current_row = get_selected_row()
     if current_row is None:
         current_row = 0
-    if current_row >= get_row_count():
+    if current_row >= get_row_count() - 1:
         return
     table_view.selectRow(current_row + 1)
     model = get_current_model() 
@@ -1326,8 +1326,8 @@ def queue_dialog():
 
 def save_and_queue_program():
     rc = save_to_file()
-    if rc:
-        queue_program(queue_default_username, queue_default_password, current_name)
+#    if rc:
+#        queue_program(queue_default_username, queue_default_password, current_name)
 
 #def queue_program(username, password, label):
 #    queue = ProgramQueue(username, password)

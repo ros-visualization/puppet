@@ -58,6 +58,9 @@ class PosesDataModel(QAbstractTableModel):
             self._editable = editable
             self.reset()
 
+    def editable(self):
+        return self._editable
+
     def add_action(self, action, index = None):
         self._add_action(action, index)
         self.actions_changed.emit()

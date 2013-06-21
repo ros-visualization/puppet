@@ -170,8 +170,10 @@ class Pr2SpeakAction(Action):
     def update_value(self, label, value):
         if label == "waitForSpeechDone":
             self.waitForSpeechDone = value
+            self._joints[0][label] = value
         elif label == "text":
             self.utterance = value
+            self._joints[0][label] = value
         else:
             return
         #self.waitForSpeechDone, self.utterance = value; 

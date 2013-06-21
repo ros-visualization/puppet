@@ -7,6 +7,9 @@ import sys
 
 class SpeechActionEditor(QWidget):
     
+    SPEECH_EDIT_FLD_WIDTH  = 400
+    SPEECH_EDIT_FLD_HEIGHT = 300
+    
     def __init__(self, parent=None):
         super(SpeechActionEditor, self).__init__(parent);
         #ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'src', 'speech_data_widget.ui')
@@ -22,11 +25,11 @@ class SpeechActionEditor(QWidget):
         hbox.addWidget(self.waitYesNoCheckbox);
         hbox.addWidget(QLabel('Text'));
         self.speechTextField = QPlainTextEdit();
-        self.speechTextField.setMaximumWidth(200);
+        self.speechTextField.setMaximumWidth(SpeechActionEditor.SPEECH_EDIT_FLD_WIDTH);
         hbox.addWidget(self.speechTextField);
         self.setLayout(hbox);
-        self.setMaximumHeight(100);
-        self.setMaximumWidth(400);
+        self.setMaximumHeight(SpeechActionEditor.SPEECH_EDIT_FLD_HEIGHT + 10);
+        self.setMaximumWidth(SpeechActionEditor.SPEECH_EDIT_FLD_WIDTH + self.waitYesNoCheckbox.width());
         return self
         
     def setValue(self, blockBoolAndTextTuple):
@@ -55,11 +58,16 @@ class SpeechActionEditor(QWidget):
         @param index: index into model
         @type index: QModelIndex
         '''
-#        width = self.waitYesNoCheckbox.width + self.speechTextField.width
-#        height = self.waitYesNoCheckbox.height + self.speechTextField.height
-#        return QSize(width, height)
-        return QSize(self.width(), self.height())
-        
+
+        # Need to allow room for the checkbox, checkbox label,
+        # and a text field:
+        (waitForSpeechDone, utterance) = self.value()
+        #width = self.waitYesNoCheckbox.width + self.speechTextField.width
+        width = self.maximumWidth()
+        #height = self.waitYesNoCheckbox.height + self.speechTextField.height
+        height = self.maximumHeight()
+    
+        return QSize(width, height)
         
 if __name__=='__main__':
     app = QApplication(sys.argv)
