@@ -1,6 +1,6 @@
 <stack>
   <description brief="puppet">puppet</description>
-  <author>Originated by Austin Hendrix. Now maintained by Andreas Paepcke</author>
+  <author>Original design Andreas Paepcke. Major development by Austin Hendrix and Dirk Thomas</author>
   <license></license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/puppet</url>
