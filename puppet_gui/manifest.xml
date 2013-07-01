@@ -22,9 +22,6 @@
   <depend package="std_srvs"/>
   <depend package="pr2_mechanism_msgs"/>
 
-  <rosdep name="korg_nanokontrol"/>
-
-
 </package>
 
 
