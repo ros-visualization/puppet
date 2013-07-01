@@ -11,5 +11,6 @@
   <depend stack="actionlib"/>
   <depend stack="pr2_controllers"/>
   <depend stack="arm_navigation"/>
+  <depend stack="pr2_arm_navigation"/>
   <depend stack="pr2_mechanism"/>
 </stack>
