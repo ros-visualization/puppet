@@ -8,9 +8,8 @@
   <url>http://ros.org/wiki/kontrol</url>
   <depend package="rospy"/>
   <depend package="sensor_msgs"/>
-  <depend package="python-pygame"/>
 
-  <!-- TODO: add rosdep on pygame -->
+  <rosdep name="python-pygame"/>
 
 </package>
 
