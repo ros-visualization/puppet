@@ -14,4 +14,5 @@
   <depend stack="pr2_arm_navigation"/>
   <depend stack="pr2_mechanism"/>
   <depend stack="korg_nanokontrol"/>
+  <depend stack="visualization"/>
 </stack>
