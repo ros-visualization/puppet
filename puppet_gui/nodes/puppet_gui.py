@@ -82,7 +82,8 @@ import tempfile
 
 roslib.load_manifest('python_qt_binding')
 roslib.load_manifest('rviz')
-roslib.load_manifest('rviz_backdrop')
+# Disable rviz_backdrop in Groovy:
+#roslib.load_manifest('rviz_backdrop')
 roslib.load_manifest('puppet_gui')
 import rospy;
 
@@ -152,7 +153,10 @@ robot_view.setSizes([0])
 
 config = tempfile.NamedTemporaryFile('w')
 if not show_point_clouds:
-    config.write("""Backdrop.Enabled=1
+    # Disable backdrop, because rviz_backdrop does not
+    # work in Groovy
+    #config.write("""Backdrop.Enabled=1
+    config.write("""Backdrop.Enabled=0
 Backdrop.Scale=4
 Backdrop.Topic=/backdrop
 Background\ ColorB=0
@@ -195,7 +199,8 @@ ClassName=rviz::RobotModelDisplay
 Name=RobotModel
 """)
 else:
-    config.write("""Backdrop.Enabled=1
+    #config.write("""Backdrop.Enabled=1
+    config.write("""Backdrop.Enabled=0
 Backdrop.Scale=4
 Backdrop.Topic=/backdrop
 Background\ ColorB=0
