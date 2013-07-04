@@ -16,4 +16,6 @@
   <depend stack="pr2_apps"/>
   <depend stack="visualization"/>
   <depend stack="pr2_simulator"/>
+  <depend stack="speakeasy"/>
+
 </stack>
