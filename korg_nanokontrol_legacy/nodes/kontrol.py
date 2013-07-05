@@ -4,7 +4,7 @@
 #
 # Author: Austin Hendrix
 
-import roslib; roslib.load_manifest('korg_nanokontrol')
+import roslib; roslib.load_manifest('korg_nanokontrol_legacy')
 import rospy
 
 import pygame

@@ -15,4 +15,5 @@
   <depend stack="pr2_mechanism"/>
   <depend stack="pr2_apps"/>
   <depend stack="visualization"/>
+  <depend stack="speakeasy"/>
 </stack>
