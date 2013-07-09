@@ -68,10 +68,13 @@ from trajectory_msgs.msg import *
 import math
 import new
 import os
+from functools import partial
 import pr2_mechanism_msgs.srv._ListControllers
 import pr2_mechanism_msgs.srv._LoadController
 import pr2_mechanism_msgs.srv._SwitchController
+
 #import puppet_gui.resourcesRepo
+
 import random
 import roslib
 import rviz
@@ -82,7 +85,8 @@ import tempfile
 
 roslib.load_manifest('python_qt_binding')
 roslib.load_manifest('rviz')
-roslib.load_manifest('rviz_backdrop')
+# Disable rviz_backdrop in Groovy:
+#roslib.load_manifest('rviz_backdrop')
 roslib.load_manifest('puppet_gui')
 import rospy;
 
@@ -144,155 +148,40 @@ timer.timeout.connect(lambda: None)
 index = main_window.robot_view_verticalLayout.indexOf(main_window.robot_view_widget)
 stretch = main_window.robot_view_verticalLayout.stretch(index)
 main_window.robot_view_verticalLayout.removeWidget(main_window.robot_view_widget)
-robot_view = rviz.VisualizationPanel()
+#****robot_view = rviz.VisualizationPanel()
+robot_view = rviz.VisualizationFrame()
+robot_view.setSplashPath( "" ) # No splash screen during loading
+robot_view.initialize()
+
+view_manager = robot_view.getManager()
+
+reader = rviz.YamlConfigReader()
+config = rviz.Config()
+reader.readFile( config, "conf/pr2_view.rviz" )
+robot_view.load( config )
+robot_view.setMenuBar( None )
+robot_view.setStatusBar( None )
+robot_view.setHideButtonVisibility( False )
+
 # hide rviz display list
 robot_view.children()[1].hide()
 main_window.robot_view_verticalLayout.insertWidget(index, robot_view, stretch)
-robot_view.setSizes([0])
 
-config = tempfile.NamedTemporaryFile('w')
-if not show_point_clouds:
-    config.write("""Backdrop.Enabled=1
-Backdrop.Scale=4
-Backdrop.Topic=/backdrop
-Background\ ColorB=0
-Background\ ColorG=0
-Background\ ColorR=0
-Camera\ Config=0.905202 5.83579 18.0278 0 -1.90735e-06 1.90735e-06
-Camera\ Type=rviz::OrbitViewController
-Fixed\ Frame=/base_link
-Grid.Alpha=0.5
-Grid.Cell\ Size=1
-Grid.ColorB=0.5
-Grid.ColorG=0.5
-Grid.ColorR=0.5
-Grid.Enabled=1
-Grid.Line\ Style=0
-Grid.Line\ Width=0.03
-Grid.Normal\ Cell\ Count=0
-Grid.OffsetX=0
-Grid.OffsetY=0
-Grid.OffsetZ=0
-Grid.Plane=0
-Grid.Plane\ Cell\ Count=8
-Grid.Reference\ Frame=<Fixed Frame>
-RobotModel.Alpha=1
-RobotModel.Collision\ Enabled=0
-RobotModel.Enabled=1
-RobotModel.Robot\ Description=robot_description
-RobotModel.TF\ Prefix=
-RobotModel.Update\ Interval=0
-RobotModel.Visual\ Enabled=1
-Target\ Frame=<Fixed Frame>
-[Display0]
-ClassName=rviz::GridDisplay
-Name=Grid
-[Display1]
-ClassName=rviz_backdrop::BackdropDisplay
-Name=Backdrop
-[Display2]
-ClassName=rviz::RobotModelDisplay
-Name=RobotModel
-""")
-else:
-    config.write("""Backdrop.Enabled=1
-Backdrop.Scale=4
-Backdrop.Topic=/backdrop
-Background\ ColorB=0
-Background\ ColorG=0
-Background\ ColorR=0
-Camera\ Config=0.905202 5.83579 18.0278 0 -1.90735e-06 1.90735e-06
-Camera\ Type=rviz::OrbitViewController
-Fixed\ Frame=/base_link
-Grid.Alpha=0.5
-Grid.Cell\ Size=1
-Grid.ColorB=0.5
-Grid.ColorG=0.5
-Grid.ColorR=0.5
-Grid.Enabled=1
-Grid.Line\ Style=0
-Grid.Line\ Width=0.03
-Grid.Normal\ Cell\ Count=0
-Grid.OffsetX=0
-Grid.OffsetY=0
-Grid.OffsetZ=0
-Grid.Plane=0
-Grid.Plane\ Cell\ Count=8
-Grid.Reference\ Frame=<Fixed Frame>
-PointCloud2..AxisColorAutocompute\ Value\ Bounds=1
-PointCloud2..AxisColorAxis=2
-PointCloud2..AxisColorMax\ Value=0.919509
-PointCloud2..AxisColorMin\ Value=-0.0470135
-PointCloud2..AxisColorUse\ Fixed\ Frame=1
-PointCloud2..FlatColorColorB=1
-PointCloud2..FlatColorColorG=1
-PointCloud2..FlatColorColorR=1
-PointCloud2..IntensityAutocompute\ Intensity\ Bounds=1
-PointCloud2..IntensityChannel\ Name=intensity
-PointCloud2..IntensityMax\ ColorB=1
-PointCloud2..IntensityMax\ ColorG=1
-PointCloud2..IntensityMax\ ColorR=1
-PointCloud2..IntensityMax\ Intensity=4096
-PointCloud2..IntensityMin\ ColorB=0
-PointCloud2..IntensityMin\ ColorG=0
-PointCloud2..IntensityMin\ ColorR=0
-PointCloud2..IntensityMin\ Intensity=0
-PointCloud2..IntensityUse\ full\ RGB\ spectrum=0
-PointCloud2.Alpha=1
-PointCloud2.Billboard\ Size=0.003
-PointCloud2.Color\ Transformer=RGB8
-PointCloud2.Decay\ Time=0
-PointCloud2.Enabled=1
-PointCloud2.Position\ Transformer=XYZ
-PointCloud2.Queue\ Size=10
-PointCloud2.Selectable=1
-PointCloud2.Style=1
-PointCloud2.Topic=/head_mount_kinect/depth_registered/points
-RobotModel.Alpha=1
-RobotModel.Collision\ Enabled=0
-RobotModel.Enabled=1
-RobotModel.Robot\ Description=robot_description
-RobotModel.TF\ Prefix=
-RobotModel.Update\ Interval=0
-RobotModel.Visual\ Enabled=1
-Target\ Frame=<Fixed Frame>
-[Display0]
-ClassName=rviz::GridDisplay
-Name=Grid
-[Display1]
-ClassName=rviz_backdrop::BackdropDisplay
-Name=Backdrop
-[Display2]
-ClassName=rviz::RobotModelDisplay
-Name=RobotModel
-[Display3]
-ClassName=rviz::PointCloud2Display
-Name=PointCloud2
-""")
-    
-config.flush()
-robot_view.loadDisplayConfig(config.name)
-config.close
+# Set up viewports for camera
 
+def switchToView( view_name ):
+    view_man = view_manager.getViewManager()
+    for i in range( view_man.getNumViews() ):
+        if view_man.getViewAt( i ).getName() == view_name:
+            view_man.setCurrentFrom( view_man.getViewAt( i ))
+            return
+    #print( "Did not find view named %s." % view_name )
 
-# set up viewports for camera
-views = []
-view_mapper = QSignalMapper(main_window)
-def set_view(index):
-    robot_view.setViewString(views[index])
-view_mapper.mapped.connect(set_view)
-def view_selected(checked):
-    if checked:
-        view_mapper.map()
-def add_view(button, view_str):
-    view_mapper.setMapping(button, len(views))
-    views.append(view_str)
-    if button.isChecked():
-        set_view(len(views) - 1)
-    button.clicked.connect(view_mapper.map)
-add_view(main_window.front_view_radioButton, '0.0402028 6.2758 2.24508 0.00208002 -0.0024735 0.753009')
-add_view(main_window.side_view_radioButton, '-0.0747972 4.83578 2.81623 -0.0104112 -0.00416593 0.984444')
-add_view(main_window.angled_view_radioButton, '0.175202 5.59079 2.81623 -0.0104112 -0.00416593 0.984444')
+main_window.front_view_radioButton.clicked.connect(partial(switchToView, "front view"))
+main_window.side_view_radioButton.clicked.connect(partial(switchToView, "side view"))
+main_window.angled_view_radioButton.clicked.connect(partial(switchToView, "angled view"))
+
+switchToView("angled view")
 
 rospy.init_node('proto_simple', disable_signals=True)
 try:

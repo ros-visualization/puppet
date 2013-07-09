@@ -80,7 +80,11 @@ def main():
          exit(-1)
    print "Using input device %d" % input_dev
 
-   controller = pygame.midi.Input(input_dev)
+   try:
+      controller = pygame.midi.Input(input_dev)
+   except (Exception,e):
+      print("Cannot initialize pygame midi input: %s" % `e`)
+      exit(-1)
 
    rospy.init_node('kontrol')
    pub = rospy.Publisher('joy', Joy, latch=True)
