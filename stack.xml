@@ -15,11 +15,6 @@
   <depend stack="pr2_mechanism"/>
   <depend stack="pr2_apps"/>
   <depend stack="visualization"/>
-<<<<<<< HEAD
-  <depend stack="speakeasy"/>
-=======
   <depend stack="pr2_simulator"/>
   <depend stack="speakeasy"/>
-
->>>>>>> 517c4ec6c6e197dd0194a08277566e39229cc4e2
 </stack>
