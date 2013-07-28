@@ -71,7 +71,6 @@ import os
 import pr2_mechanism_msgs.srv._ListControllers
 import pr2_mechanism_msgs.srv._LoadController
 import pr2_mechanism_msgs.srv._SwitchController
-import puppet_gui.resourcesRepo
 import random
 import roslib
 import rviz

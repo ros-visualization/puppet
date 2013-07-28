@@ -12,7 +12,7 @@
   <depend package="rospy"/>
   <depend package="pr2_controllers_msgs"/>
   <depend package="trajectory_msgs"/>
-<!--  <depend package="face_detector"/> -->
+  <!--  <depend package="face_detector"/> -->
   <depend package="rviz_backdrop"/>
   <depend package="sensor_msgs"/>
 
@@ -22,7 +22,7 @@
   <depend package="std_srvs"/>
   <depend package="pr2_mechanism_msgs"/>
 
-  <rosdep name="korg_nanokontrol"/>
+  <!-- <rosdep name="korg_nanokontrol_legacy"/> -->
   <rosdep name="people"/>
 
 </package>
