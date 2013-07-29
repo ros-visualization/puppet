@@ -157,7 +157,8 @@ view_manager = robot_view.getManager()
 
 reader = rviz.YamlConfigReader()
 config = rviz.Config()
-reader.readFile( config, "conf/pr2_view.rviz" )
+confFile = os.path.realpath(os.path.join(os.path.dirname(__file__), "../conf/pr2_view.rviz"));
+reader.readFile( config, confFile);
 robot_view.load( config )
 robot_view.setMenuBar( None )
 robot_view.setStatusBar( None )

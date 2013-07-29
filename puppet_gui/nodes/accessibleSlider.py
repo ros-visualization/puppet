@@ -100,7 +100,7 @@ class AccessibleSlider(QMainWindow):
         self.show();
 
     def shutdown(self):
-        self._timer.shutdown();
+        self._timer.cancel();
 
     def setSliderValue(self, channelIndex, value):
         self.checkChannelIndexInRange(channelIndex);
@@ -418,8 +418,9 @@ def sigint_handler(*args):
     global sigint_called
     print('\nsigint_handler()')
     sigint_called = True
-    slider.close()
+    sys.exit(0)
 signal.signal(signal.SIGINT, sigint_handler)
+
 # the timer enables triggering the sigint_handler,
 # because it coaxes processing out of the underlying
 # C++ world:
@@ -434,6 +435,9 @@ if __name__ == '__main__':
     slider = AccessibleSlider();
     try:
         sys.exit(app.exec_())
-    except KeyboardInterrupt, ROSInterruptException:
+    except (KeyboardInterrupt, rospy.ROSInterruptException, SystemExit):
+        #**************8
+        print("keyint or rosint or systemexit")
+        #**************8
         slider.shutdown();
         sys.exit();                
